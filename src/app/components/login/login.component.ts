@@ -38,11 +38,11 @@ export class LoginComponent {
           if (this.authService.isManager()) {
             this.router.navigate(['/admin-dashboard']);
           } else {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/user-dashboard']);
           }
         },
         error: (error) => {
-          this.errorMessage = error.error?.message || 'שגיאה בהתחברות';
+          this.errorMessage = error.error?.message || 'login failed';
           this.isLoading = false;
         }
       });

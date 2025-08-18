@@ -11,27 +11,27 @@ export class SitesService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/api/Sites`;
 
-  getSites(): Observable<Sites[]> {
-    return this.http.get<Sites[]>(this.apiUrl);
+  getSites(): Observable<Sits[]> {
+    return this.http.get<Sits[]>(this.apiUrl);
   }
 
-  createSite(site: CreateSiteModel): Observable<Sites> {
-    return this.http.post<Sites>(this.apiUrl, site);
+  createSite(site: CreateSiteModel): Observable<Sits> {
+    return this.http.post<Sits>(this.apiUrl, site);
   }
 
-  updateSite(id: number, site: Partial<Sites>): Observable<Sites> {
-    return this.http.put<Sites>(`${this.apiUrl}/${id}`, site);
+  updateSite(id: number, site: Partial<Sits>): Observable<Sits> {
+    return this.http.put<Sits>(`${this.apiUrl}/${id}`, site);
   }
 
   deleteSite(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  addUserToSite(siteId: number, userId: number): Observable<Sites> {
-    return this.http.post<Sites>(`${this.apiUrl}/${siteId}/add-user/${userId}`, {});
+  addUserToSite(siteId: number, userId: number): Observable<Sits> {
+    return this.http.post<Sits>(`${this.apiUrl}/${siteId}/add-user/${userId}`, {});
   }
 
-  removeUserFromSite(siteId: number, userId: number): Observable<Sites> {
-    return this.http.delete<Sites>(`${this.apiUrl}/${siteId}/remove-user/${userId}`);
+  removeUserFromSite(siteId: number, userId: number): Observable<Sits> {
+    return this.http.delete<Sits>(`${this.apiUrl}/${siteId}/remove-user/${userId}`);
   }
 }

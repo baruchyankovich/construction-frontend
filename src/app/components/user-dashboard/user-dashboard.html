@@ -1,0 +1,138 @@
+<div class="container">
+    <h1 class="page-title">My Dashboard</h1>
+  
+   
+  
+   
+    <div class="section">
+      <h2 class="section-title">My Sites</h2>
+      <div *ngIf="userSites.length === 0" class="no-data">
+        No sites assigned to you
+      </div>
+      <div *ngIf="userSites.length > 0" class="sites-grid">
+        <div *ngFor="let site of userSites" class="site-card">
+          <h3>{{site.location}}</h3>
+          <p>Site ID: {{site.id}}</p>
+          <p>Assigned Workers: {{site.usersId.length}}</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Add New Order Section -->
+    <div class="section">
+      <h2 class="section-title">Add New Order</h2>
+      <div class="form-container">
+        <form [formGroup]="orderForm" (ngSubmit)="onSubmitOrder()">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Select Site</label>
+              <select formControlName="siteId" class="form-select" 
+                      [class.error]="orderForm.get('siteId')?.invalid && orderForm.get('siteId')?.touched">
+                <option value="">Choose a site</option>
+                <option *ngFor="let site of userSites" [value]="site.id">
+                  {{site.location}}
+                </option>
+              </select>
+              <div *ngIf="orderForm.get('siteId')?.invalid && orderForm.get('siteId')?.touched" 
+                   class="error-message">
+                Site selection is required
+              </div>
+            </div>
+  
+            <div class="form-group">
+              <label class="form-label">Product</label>
+              <input type="text" formControlName="product" class="form-input"
+                     [class.error]="orderForm.get('product')?.invalid && orderForm.get('product')?.touched"
+                     placeholder="Enter product name">
+              <div *ngIf="orderForm.get('product')?.invalid && orderForm.get('product')?.touched" 
+                   class="error-message">
+                Product name is required
+              </div>
+            </div>
+  
+            <div class="form-group">
+              <label class="form-label">Quantity</label>
+              <input type="number" formControlName="quantity" class="form-input" min="1"
+                     [class.error]="orderForm.get('quantity')?.invalid && orderForm.get('quantity')?.touched"
+                     placeholder="Enter quantity">
+              <div *ngIf="orderForm.get('quantity')?.invalid && orderForm.get('quantity')?.touched" 
+                   class="error-message">
+                Valid quantity is required
+              </div>
+            </div>
+          </div>
+  
+          <button type="submit" class="submit-btn" 
+                  [disabled]="orderForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Submit Order</span>
+            <span *ngIf="isLoading" class="loading-text">
+              <i class="loading-spinner"></i>
+              Submitting...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  
+    <!-- My Orders Section -->
+    <div class="section">
+      <h2 class="section-title">My Orders</h2>
+      
+      <div *ngIf="userOrders.length === 0" class="no-data">
+        No orders found
+      </div>
+      
+      <div *ngIf="userOrders.length > 0" class="table-container">
+        <table class="orders-table">
+          <thead>
+            <tr class="table-header">
+              <th>Order ID</th>
+              <th>Site</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of userOrders" class="table-row">
+              <td class="order-id">#{{order.id}}</td>
+              <td class="site-name">{{getSiteName(order.siteId)}}</td>
+              <td class="product-name">{{order.product}}</td>
+              <td class="quantity">{{order.quantity}}</td>
+              <td class="order-date">{{order.date | date:'short'}}</td>
+              <td class="order-status">
+                <span class="status-badge" 
+                      [class.pending]="!order.status" 
+                      [class.completed]="order.status">
+                  {{order.status ? 'Completed' : 'Pending'}}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <!-- Statistics Section -->
+    <div class="section">
+      <h2 class="section-title">Order Statistics</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>{{getTotalOrders()}}</h3>
+          <p>Total Orders</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{getPendingOrders()}}</h3>
+          <p>Pending Orders</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{getCompletedOrders()}}</h3>
+          <p>Completed Orders</p>
+        </div>
+      </div>
+    </div>
+  
+    
+    
+  </div>

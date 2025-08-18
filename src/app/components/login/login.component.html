@@ -1,1 +1,37 @@
-<p>login works!</p>
+<div class="login-container">
+    <div class="login-card">
+      <div>
+        <h2 class="login-title">
+          התחבר לחשבון שלך
+        </h2>
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <div class="input-group">
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="כתובת מייל"
+            required
+            class="input-field"
+          />
+          <input
+            formControlName="password"
+            type="password"
+            placeholder="סיסמה"
+            required
+            class="input-field"
+          />
+        </div>
+  
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+  
+        <button type="submit" [disabled]="loginForm.invalid || isLoading" class="login-button">
+          <span *ngIf="!isLoading">התחבר</span>
+          <span *ngIf="isLoading">מתחבר...</span>
+        </button>
+      </form>
+    </div>
+  </div>
+  

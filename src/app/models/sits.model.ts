@@ -1,4 +1,4 @@
-export interface Sites {
+export interface Sits {
     id: number;
     location: string;
     usersId: number[];
